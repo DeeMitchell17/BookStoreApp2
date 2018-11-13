@@ -33,7 +33,7 @@
             <EditText
                 android:id="@+id/edit_price"
                 android:hint="@string/Price"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 style="@style/EditorFieldStyle" />
 
             <EditText
@@ -124,7 +124,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_phone_number"
-                android:text="Call" />
+                android:text="@string/Call" />
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

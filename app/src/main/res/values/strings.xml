@@ -52,9 +52,11 @@
     <string name="empty_view_title_text">Hey where\'d everybody go?</string>
     <string name="empty_view_subtitle_text">Start by adding an item</string>
     <string name="dummy_data_product_name">Kindle Fire</string>
-    <string name="dummy_data_price">39.99</string>
+    <string name="dummy_data_price">40</string>
     <string name="dummy_data_supplier">READERZ, INC</string>
     <string name="dummy_data_phone_number">213-456-5000</string>
     <string name="dummy_data_quantity">12</string>
+    <string name="Call">Call</string>
+    <string name="Buy">BUY</string>
 
 </resources>

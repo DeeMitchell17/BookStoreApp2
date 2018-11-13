@@ -98,9 +98,9 @@ public class StoreProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
-        Integer price = values.getAsInteger(ItemEntry.COLUMN_PRICE);
+        String price = values.getAsString(ItemEntry.COLUMN_PRICE);
         if (price == null) {
-            throw new IllegalArgumentException("Product requires valid price");
+            throw new IllegalArgumentException("Product requires a price");
         }
 
         Integer quantity = values.getAsInteger(ItemEntry.COLUMN_QUANTITY);
@@ -162,7 +162,7 @@ public class StoreProvider extends ContentProvider {
         }
 
         if (values.containsKey(StoreContract.ItemEntry.COLUMN_PRICE)) {
-            Integer price = values.getAsInteger(StoreContract.ItemEntry.COLUMN_PRICE);
+            String price = values.getAsString(StoreContract.ItemEntry.COLUMN_PRICE);
             if (price != null) {
                 throw new IllegalArgumentException("Product requires a price");
             }

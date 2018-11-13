@@ -1,6 +1,5 @@
 package com.example.android.bookstoreapp2;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -19,19 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.android.bookstoreapp2.data.StoreContract;
-import com.example.android.bookstoreapp2.data.StoreDbHelper;
+
 
 public class AddItemActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the pet data loader */
+    /** Identifier for the bookstore data loader */
     private static final int EXISTING_BOOKSTORE_LOADER = 0;
 
     private Uri mCurrentItemUri;
@@ -51,12 +47,6 @@ public class AddItemActivity extends AppCompatActivity implements
     /** EditText field to enter the product supplier phone number */
     private EditText mSupplierPhoneNumberEditText;
 
-    private Button mIncreaseButton;
-
-    private Button mDecreaseButton;
-
-    private Button mContactButton;
-
     /** Boolean flag that keeps track of whether the pet has been edited (true) or not (false) */
     private boolean mItemHasChanged = false;
 
@@ -68,7 +58,7 @@ public class AddItemActivity extends AppCompatActivity implements
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             mItemHasChanged = true;
-            return false;
+            return true;
         }
     };
 
@@ -77,17 +67,6 @@ public class AddItemActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-
-        Button contactButton = findViewById ( R.id.contact);
-        contactButton.setOnClickListener ( new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent ( Intent.ACTION_DIAL );
-                intent.setData ( Uri.parse ( "tel:213-456-7890 " ) );
-                startActivity ( intent );
-                Log.v ( "EditText", mSupplierPhoneNumberEditText.getText ().toString ().trim () );
-            }
-        } );
 
         Intent intent = getIntent();
         mCurrentItemUri = intent.getData();
@@ -107,9 +86,9 @@ public class AddItemActivity extends AppCompatActivity implements
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_phone_number);
-        mIncreaseButton = findViewById(R.id.increase);
-        mDecreaseButton = findViewById(R.id.decrease);
-        mContactButton = findViewById(R.id.contact);
+        Button mIncreaseButton = findViewById(R.id.increase);
+        Button mDecreaseButton = findViewById(R.id.decrease);
+        Button mContactButton = findViewById(R.id.contact);
 
         mProductNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
@@ -117,7 +96,18 @@ public class AddItemActivity extends AppCompatActivity implements
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneNumberEditText.setOnTouchListener(mTouchListener);
 
-        mIncreaseButton.setOnClickListener ( new View.OnClickListener () {
+
+        mContactButton.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent ( Intent.ACTION_DIAL );
+                intent.setData ( Uri.parse ( "tel:213-456-5000" ) );
+                startActivity ( intent );
+                Log.v ( "EditText", mSupplierPhoneNumberEditText.getText ().toString ().trim () );
+            }
+        } );
+
+        mIncreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 int quantity = Integer.parseInt ( mQuantityEditText.getText ().toString ().trim () );
@@ -126,7 +116,7 @@ public class AddItemActivity extends AppCompatActivity implements
                 }
             }
         } );
-        mDecreaseButton.setOnClickListener ( new View.OnClickListener () {
+        mDecreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 int quantity = Integer.parseInt ( mQuantityEditText.getText ().toString ().trim () );
@@ -146,17 +136,11 @@ public class AddItemActivity extends AppCompatActivity implements
     private void saveItem() {
 
         String nameString = mProductNameEditText.getText().toString().trim();
-
         String priceString = mPriceEditText.getText().toString().trim();
-        double price = Double.parseDouble(priceString);
-
         String quantityString = mQuantityEditText.getText().toString().trim();
-        int quantity = Integer.parseInt(quantityString);
-
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
-
         String contactString = mSupplierPhoneNumberEditText.getText().toString().trim();
-        int contact = Integer.parseInt(contactString);
+
 
         if (mCurrentItemUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
@@ -167,10 +151,14 @@ public class AddItemActivity extends AppCompatActivity implements
 
         ContentValues values = new ContentValues();
         values.put(StoreContract.ItemEntry.COLUMN_PRODUCT_NAME, nameString);
-        values.put(StoreContract.ItemEntry.COLUMN_PRICE, price);
-        values.put(StoreContract.ItemEntry.COLUMN_QUANTITY, quantity);
+        values.put(StoreContract.ItemEntry.COLUMN_PRICE, priceString);
+        values.put(StoreContract.ItemEntry.COLUMN_QUANTITY, quantityString);
         values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
-        values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER, contact);
+        values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER, contactString);
+
+        int itemPrice = Integer.parseInt(priceString);
+        values.put(StoreContract.ItemEntry.COLUMN_PRICE, itemPrice);
+
 
         if (mCurrentItemUri == null) {
             Uri newUri = getContentResolver().insert(StoreContract.ItemEntry.CONTENT_URI, values);
@@ -297,14 +285,14 @@ public class AddItemActivity extends AppCompatActivity implements
             int contactColumnIndex = cursor.getColumnIndex(StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
 
             String name = cursor.getString(productColumnIndex);
-            double price = cursor.getDouble(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
+            int price = cursor.getInt(priceColumnIndex);
+            String quantity = cursor.getString(quantityColumnIndex);
             String supplier = cursor.getString(supplierColumnIndex);
             int contact = cursor.getInt(contactColumnIndex);
 
             mProductNameEditText.setText(name);
-            mPriceEditText.setText(Integer.toString((int) price));
-            mQuantityEditText.setText(Integer.toString(quantity));
+            mPriceEditText.setText(String.format(String.valueOf(price)));
+            mQuantityEditText.setText(String.format(String.valueOf(quantity)));
             mSupplierNameEditText.setText(supplier);
             mSupplierPhoneNumberEditText.setText(contact);
 

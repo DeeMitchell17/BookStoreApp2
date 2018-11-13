@@ -36,22 +36,25 @@ public class StoreCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
 
-        TextView nameTextView = view.findViewById ( R.id.name );
-        TextView priceTextView = view.findViewById ( R.id.price );
-        final TextView quantityTextView = view.findViewById ( R.id.quantity);
+        TextView nameTextView = view.findViewById (R.id.name);
+        TextView priceTextView = view.findViewById (R.id.price);
+        final TextView quantityTextView = view.findViewById (R.id.quantity);
+        TextView supplierNameTextView = view.findViewById (R.id.supplier);
 
         final int nameColumnIndex = cursor.getColumnIndex ( StoreContract.ItemEntry.COLUMN_PRODUCT_NAME );
         int priceColumnIndex = cursor.getColumnIndex ( StoreContract.ItemEntry.COLUMN_PRICE );
         final int quantityColumnIndex = cursor.getColumnIndex ( StoreContract.ItemEntry.COLUMN_QUANTITY );
+        int supplierColumnIndex = cursor.getColumnIndex(StoreContract.ItemEntry.COLUMN_SUPPLIER_NAME);
 
-        String productName = cursor.getString ( nameColumnIndex );
-        final String productPrice = cursor.getString ( priceColumnIndex );
-        final String productQuantity = cursor.getString ( quantityColumnIndex );
+        String productName = cursor.getString (nameColumnIndex);
+        final String productPrice = cursor.getString (priceColumnIndex);
+        final String productQuantity = cursor.getString (quantityColumnIndex);
+        String productSupplier = cursor.getString(supplierColumnIndex);
 
         nameTextView.setText (productName);
         priceTextView.setText (productPrice);
-        quantityTextView.setText ( String.valueOf (productQuantity) );
-
+        quantityTextView.setText (String.valueOf (productQuantity) );
+        supplierNameTextView.setText(productSupplier);
 
         final int cursorPosition = cursor.getPosition ();
 
