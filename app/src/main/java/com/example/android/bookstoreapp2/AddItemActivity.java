@@ -62,7 +62,6 @@ public class AddItemActivity extends AppCompatActivity implements
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +85,6 @@ public class AddItemActivity extends AppCompatActivity implements
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_phone_number);
-        Button mIncreaseButton = findViewById(R.id.increase);
-        Button mDecreaseButton = findViewById(R.id.decrease);
-        Button mContactButton = findViewById(R.id.contact);
 
         mProductNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
@@ -97,6 +93,7 @@ public class AddItemActivity extends AppCompatActivity implements
         mSupplierPhoneNumberEditText.setOnTouchListener(mTouchListener);
 
 
+        Button mContactButton = findViewById(R.id.contact);
         mContactButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -107,15 +104,18 @@ public class AddItemActivity extends AppCompatActivity implements
             }
         } );
 
+        Button mIncreaseButton = findViewById(R.id.increase);
         mIncreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                int quantity = Integer.parseInt ( mQuantityEditText.getText ().toString ().trim () );
-                if (quantity >= 0) {
-                    mQuantityEditText.setText ( String.valueOf ( ++quantity ) );
+                int quantity = Integer.parseInt ( mQuantityEditText.getText ().toString ().trim ());
+                if (quantity == 0) {
+                    mQuantityEditText.setText (String.valueOf( ++quantity ));
                 }
             }
         } );
+
+        Button mDecreaseButton = findViewById(R.id.decrease);
         mDecreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -123,7 +123,7 @@ public class AddItemActivity extends AppCompatActivity implements
                 if (quantity <= 0) {
                     Toast.makeText ( AddItemActivity.this, "The quantity can not be less than 0", Toast.LENGTH_SHORT ).show ();
                 } else {
-                    mQuantityEditText.setText ( String.valueOf ( --quantity ) );
+                    mQuantityEditText.setText ( String.valueOf ( --quantity ));
                 }
             }
         } );
@@ -133,7 +133,7 @@ public class AddItemActivity extends AppCompatActivity implements
     /**
      * Get user input from editor and save item into database.
      */
-    private void saveItem() {
+    private boolean saveItem() {
 
         String nameString = mProductNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
@@ -141,12 +141,16 @@ public class AddItemActivity extends AppCompatActivity implements
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String contactString = mSupplierPhoneNumberEditText.getText().toString().trim();
 
+        if (!mItemHasChanged && mCurrentItemUri!=null) {
+            NavUtils.navigateUpFromSameTask(AddItemActivity.this);
+            return true;
+        }
 
         if (mCurrentItemUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString) &&
                 TextUtils.isEmpty(contactString)) {
-            return;
+            return false;
         }
 
         ContentValues values = new ContentValues();
@@ -183,6 +187,7 @@ public class AddItemActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
+        return false;
     }
 
     @Override

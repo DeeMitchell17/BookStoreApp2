@@ -56,29 +56,46 @@ public class StoreCursorAdapter extends CursorAdapter {
         quantityTextView.setText (String.valueOf (productQuantity) );
         supplierNameTextView.setText(productSupplier);
 
-        final int cursorPosition = cursor.getPosition ();
+        //final int cursorPosition = cursor.getPosition ();
 
+        //final Button sale = view.findViewById ( R.id.sale);
+        //sale.setOnClickListener ( new View.OnClickListener () {
+           // @Override
+            //public void onClick(View v) {
+                //ContentValues storeValues= new ContentValues ();
+                //cursor.moveToPosition ( cursorPosition );
+                //int quantity = 0;
+                //int itemId = cursor.getInt ( cursor.getColumnIndex ( StoreContract.ItemEntry._ID ) );
+                //quantity = Integer.parseInt (String.valueOf (quantity));
+                //quantity -= 1;
+                //if (quantity < 0) {
+                //    Toast.makeText ( context, "The quantity has decreased", Toast.LENGTH_SHORT ).show ();
+                //}
+                //storeValues.put (StoreContract.ItemEntry.COLUMN_QUANTITY, quantity );
+                //Uri productItemUri = ContentUris.withAppendedId (StoreContract.ItemEntry.CONTENT_URI, itemId );
+                //int rowsAffected = context.getContentResolver ().update (productItemUri, storeValues, null, null );
+                //if (rowsAffected > 0){
+                //    quantityTextView.setText ( String.format (String.valueOf(quantity)) );
+                //}
+            //}
+        //} );
         final Button sale = view.findViewById ( R.id.sale);
         sale.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                ContentValues storeValues= new ContentValues ();
-                cursor.moveToPosition ( cursorPosition );
-                int quantity = 0;
-                int itemId = cursor.getInt ( cursor.getColumnIndex ( StoreContract.ItemEntry._ID ) );
-                quantity = Integer.parseInt (String.valueOf (quantity));
-                quantity -= 1;
-                if (quantity < 0) {
-                    Toast.makeText ( context, "The quantity has decreased", Toast.LENGTH_SHORT ).show ();
-                }
-                storeValues.put (StoreContract.ItemEntry.COLUMN_QUANTITY, quantity );
-                Uri productItemUri = ContentUris.withAppendedId (StoreContract.ItemEntry.CONTENT_URI, itemId );
-                int rowsAffected = context.getContentResolver ().update (productItemUri, storeValues, null, null );
-                if (rowsAffected > 0){
-                    quantityTextView.setText ( String.format (String.valueOf(quantity)) );
+
+                int quantity = Integer.parseInt(quantityTextView.getText().toString());
+
+                if (quantity > 0) {
+                    quantity --;
+                    quantityTextView.setText(String.valueOf(quantity));
+                    ContentValues storeValues= new ContentValues ();
+                    storeValues.put (StoreContract.ItemEntry.COLUMN_QUANTITY, quantity );
+
+                }else {
+                    Toast.makeText ( context, "Quanity can't be negative", Toast.LENGTH_SHORT ).show ();
                 }
             }
         } );
-
     }
 }

@@ -64,6 +64,15 @@ public class StoreItemActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(BOOKSTORE_LOADER, null, this);
         }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ListView listView = (ListView) findViewById(R.id.list);
+
+        listView.setAdapter(mCursorAdapter);
+    }
+
+
     private void insertItem() {
         ContentValues values = new ContentValues();
         values.put(StoreContract.ItemEntry.COLUMN_PRODUCT_NAME, getString(R.string.dummy_data_product_name));
