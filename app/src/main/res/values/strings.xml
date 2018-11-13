@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">BookStoreApp2</string>
+
+    <string name="product_information">Product Information</string>
+
+    <string name="hint_product_name">Item</string>
+
+    <string name="Price">Price</string>
+
+    <string name="Quantity">Quantity</string>
+
+    <string name="Supplier">Supplier</string>
+
+    <string name="supplier_name">Supplier Name</string>
+
+    <string name="insert_dummy_data">Insert Dummy Data</string>
+
+    <string name="delete_all_items">Delete All Items</string>
+
+    <string name="add_a_new_product">Add a New Product</string>
+
+    <string name="save">save</string>
+
+    <string name="delete">delete</string>
+
+    <string name="supplier_phone_number">Supplier Phone Number</string>
+
+    <string name="phone_number">Phone Number</string>
+
+    <string name="error_saving_new_product">Error saving new product</string>
+
+    <string name="product_saved_with_row_id">Product saved with row id:</string>
+
+    <string name="item">Item</string>
+
+    <string name="company">Company</string>
+
+    <string name="contact">Contact</string>
+    <string name="editor_activity_title_new_item">Add a New Item</string>
+    <string name="editor_activity_title_edit_item">Edit Item</string>
+    <string name="add_item_insert_item_failed">Error saving item</string>
+    <string name="add_item_insert_item_successful">Item saved</string>
+    <string name="add_item_update_item_failed">Item updated</string>
+    <string name="add_item_update_item_successful">Error updating item</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="delete_dialog_msg">Delete this item?</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_item_delete_product_failed">Item Deleted</string>
+    <string name="add_item_delete_product_successful">Error deleting item</string>
+    <string name="empty_view_title_text">Hey where\'d everybody go?</string>
+    <string name="empty_view_subtitle_text">Start by adding an item</string>
+    <string name="dummy_data_product_name">Kindle Fire</string>
+    <string name="dummy_data_price">39.99</string>
+    <string name="dummy_data_supplier">READERZ, INC</string>
+    <string name="dummy_data_phone_number">213-456-5000</string>
+    <string name="dummy_data_quantity">12</string>
+
+</resources>

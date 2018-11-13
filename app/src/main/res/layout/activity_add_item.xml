@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddItemActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="@string/product_information"
+            style="@style/CategoryStyle" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_product_name"
+                android:hint="@string/item"
+                android:inputType="textCapWords"
+                style="@style/EditorFieldStyle" />
+
+            <EditText
+                android:id="@+id/edit_price"
+                android:hint="@string/Price"
+                android:inputType="numberDecimal"
+                style="@style/EditorFieldStyle" />
+
+            <EditText
+                android:id="@+id/edit_quantity"
+                android:hint="@string/Quantity"
+                android:inputType="number"
+                style="@style/EditorFieldStyle" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/increase"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="6dp"
+                android:text="+"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/decrease"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="6dp"
+                android:layout_toRightOf="@id/increase"
+                android:text="-"
+                android:textStyle="bold" />
+        </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Supplier category -->
+    <LinearLayout
+        android:id="@+id/edit_supplier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/Supplier"
+            style="@style/CategoryStyle" />
+
+        <!-- Input fields -->
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp">
+
+            <!-- Supplier Name field -->
+            <EditText
+                android:id="@+id/edit_supplier_name"
+                android:hint="@string/company"
+                android:inputType="text"
+                style="@style/EditorFieldStyle" />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/phone_number"
+            style="@style/CategoryStyle" />
+
+        <!-- Input fields -->
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp">
+
+            <!-- Supplier Name field -->
+            <EditText
+                android:id="@+id/edit_phone_number"
+                android:hint="@string/contact"
+                android:inputType="phone|number"
+                style="@style/EditorFieldStyle" />
+
+            <Button
+                android:id="@+id/contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_phone_number"
+                android:text="Call" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
