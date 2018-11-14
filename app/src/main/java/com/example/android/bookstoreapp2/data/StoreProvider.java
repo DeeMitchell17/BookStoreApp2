@@ -143,7 +143,7 @@ public class StoreProvider extends ContentProvider {
 
         if (values.containsKey(StoreContract.ItemEntry.COLUMN_PRICE)) {
             String price = values.getAsString(StoreContract.ItemEntry.COLUMN_PRICE);
-            if (price != null) {
+            if (price == null) {
                 throw new IllegalArgumentException("Product requires a price");
             }
         }

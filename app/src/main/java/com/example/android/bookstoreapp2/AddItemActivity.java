@@ -3,6 +3,7 @@ package com.example.android.bookstoreapp2;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,6 +43,8 @@ public class AddItemActivity extends AppCompatActivity implements
     private EditText mSupplierPhoneNumberEditText;
 
     private boolean mItemHasChanged = false;
+
+    int quantity = 0;
 
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -87,10 +90,10 @@ public class AddItemActivity extends AppCompatActivity implements
         mContactButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (Intent.ACTION_DIAL);
-                intent.setData ( Uri.parse ("tel:203-500-6079"));
-                startActivity ( intent );
-                Log.v ( "EditText", mSupplierPhoneNumberEditText.getText ().toString ().trim () );
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mSupplierPhoneNumberEditText.getText().toString().trim()));
+                if (dialIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(dialIntent);
+                }
             }
         } );
 
@@ -98,27 +101,39 @@ public class AddItemActivity extends AppCompatActivity implements
         mIncreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                int quantity = Integer.parseInt (mQuantityEditText.getText ().toString ().trim ());
-                if (quantity >= 0) {
-                    mQuantityEditText.setText (String.valueOf( ++quantity ));
+                String quantityString = null;
+                if (TextUtils.isEmpty(quantityString)) {
+                    quantityString = mQuantityEditText.getText().toString().trim();
+                    quantity = Integer.parseInt(quantityString);
                 }
+                quantity += 1;
+                mQuantityEditText.setText(String.valueOf(quantity));
+                mItemHasChanged = true;
             }
         } );
+
 
         Button mDecreaseButton = findViewById(R.id.decrease);
         mDecreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                int quantity = Integer.parseInt ( mQuantityEditText.getText ().toString ().trim () );
-                if (quantity <= 0) {
-                    Toast.makeText ( AddItemActivity.this, "The quantity can not be less than 0", Toast.LENGTH_SHORT ).show ();
-                } else {
-                    mQuantityEditText.setText ( String.valueOf ( --quantity ));
+                String quantityString = null;
+                if (TextUtils.isEmpty(quantityString)) {
+                    quantityString = mQuantityEditText.getText().toString().trim();
+                    quantity = Integer.parseInt(quantityString);
                 }
-            }
-        } );
+                if (quantity == 0) {
+                    return;
+                }
+                quantity -= 1;
+                mQuantityEditText.setText(String.valueOf(quantity));
+                mItemHasChanged = true;
 
-    }
+            }
+
+            });
+
+        }
 
     private boolean saveItem() {
 
@@ -128,15 +143,15 @@ public class AddItemActivity extends AppCompatActivity implements
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String contactString = mSupplierPhoneNumberEditText.getText().toString().trim();
 
-        if (!mItemHasChanged && mCurrentItemUri!=null) {
+        if (!mItemHasChanged && mCurrentItemUri != null) {
             NavUtils.navigateUpFromSameTask(AddItemActivity.this);
             return true;
         }
 
-        if (mCurrentItemUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
-                TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString) &&
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) ||
+                TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(supplierNameString) ||
                 TextUtils.isEmpty(contactString)) {
+            Toast.makeText(this, "You must enter all information.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -147,9 +162,10 @@ public class AddItemActivity extends AppCompatActivity implements
         values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER, contactString);
 
-        int itemPrice = Integer.parseInt(priceString);
-        values.put(StoreContract.ItemEntry.COLUMN_PRICE, itemPrice);
-
+        if (!TextUtils.isEmpty(priceString)) {
+            int itemPrice = Integer.parseInt(priceString);
+            values.put(StoreContract.ItemEntry.COLUMN_PRICE, itemPrice);
+        }
 
         if (mCurrentItemUri == null) {
             Uri newUri = getContentResolver().insert(StoreContract.ItemEntry.CONTENT_URI, values);

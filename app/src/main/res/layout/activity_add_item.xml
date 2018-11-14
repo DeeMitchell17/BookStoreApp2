@@ -33,7 +33,7 @@
             <EditText
                 android:id="@+id/edit_price"
                 android:hint="@string/Price"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 style="@style/EditorFieldStyle" />
 
             <EditText

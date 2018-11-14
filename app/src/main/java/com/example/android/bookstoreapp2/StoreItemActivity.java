@@ -70,6 +70,10 @@ public class StoreItemActivity extends AppCompatActivity implements
             listView.setAdapter(mCursorAdapter);
         }
 
+    private void decreaseQuantity() {
+
+    }
+
     private void insertItem() {
         ContentValues values = new ContentValues();
         values.put(StoreContract.ItemEntry.COLUMN_PRODUCT_NAME, getString(R.string.dummy_data_product_name));
