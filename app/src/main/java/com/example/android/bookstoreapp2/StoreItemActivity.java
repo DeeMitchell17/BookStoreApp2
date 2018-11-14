@@ -23,10 +23,8 @@ import com.example.android.bookstoreapp2.data.StoreContract;
 public class StoreItemActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-        /** Identifier for the pet data loader */
         private static final int BOOKSTORE_LOADER = 0;
 
-        /** Adapter for the ListView */
         StoreCursorAdapter mCursorAdapter;
 
         @Override
@@ -64,14 +62,13 @@ public class StoreItemActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(BOOKSTORE_LOADER, null, this);
         }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ListView listView = (ListView) findViewById(R.id.list);
+        @Override
+        protected void onStart() {
+            super.onStart();
+            ListView listView = (ListView) findViewById(R.id.list);
 
-        listView.setAdapter(mCursorAdapter);
-    }
-
+            listView.setAdapter(mCursorAdapter);
+        }
 
     private void insertItem() {
         ContentValues values = new ContentValues();
@@ -79,14 +76,11 @@ public class StoreItemActivity extends AppCompatActivity implements
         values.put(StoreContract.ItemEntry.COLUMN_PRICE, getString(R.string.dummy_data_price));
         values.put(StoreContract.ItemEntry.COLUMN_QUANTITY, getString(R.string.dummy_data_quantity));
         values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_NAME, getString(R.string.dummy_data_supplier));
-        values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER, getString(R.string.dummy_data_phone_number));
+        values.put(StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER, "203-500-6079");
 
         Uri newUri = getContentResolver().insert(StoreContract.ItemEntry.CONTENT_URI, values);
     }
 
-        /**
-         * Helper method to delete all items in the database.
-         */
         private void deleteAllItems() {
             int rowsDeleted = getContentResolver().delete(StoreContract.ItemEntry.CONTENT_URI, null, null);
             Log.v("StoreItemActivity", rowsDeleted + " rows deleted from bookstore database");

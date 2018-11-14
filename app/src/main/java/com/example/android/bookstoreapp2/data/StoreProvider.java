@@ -11,25 +11,15 @@ import android.util.Log;
 
 import com.example.android.bookstoreapp2.data.StoreContract.ItemEntry;
 
-/**
- * {@link ContentProvider} for Pets app.
- */
+
 public class StoreProvider extends ContentProvider {
 
-    /** Tag for the log messages */
     public static final String LOG_TAG = StoreProvider.class.getSimpleName();
 
-    /** URI matcher code for the content URI for the bookstore table */
     private static final int BOOKSTORE = 100;
 
-    /** URI matcher code for the content URI for a single pet in the pets table */
     private static final int BOOKSTORE_ID = 101;
 
-    /**
-     * UriMatcher object to match a content URI to a corresponding code.
-     * The input passed into the constructor represents the code to return for the root URI.
-     * It's common to use NO_MATCH as the input for this case.
-     */
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
@@ -37,7 +27,6 @@ public class StoreProvider extends ContentProvider {
         sUriMatcher.addURI(StoreContract.CONTENT_AUTHORITY, StoreContract.PATH_BOOKSTORE + "/#", BOOKSTORE_ID);
     }
 
-    /** Database helper object */
     private StoreDbHelper mDbHelper;
 
     @Override
@@ -87,10 +76,6 @@ public class StoreProvider extends ContentProvider {
         }
     }
 
-    /**
-     * Insert an item into the database with the given content values. Return the new content URI
-     * for that specific row in the database.
-     */
     private Uri insertItem(Uri uri, ContentValues values) {
 
         String name = values.getAsString(ItemEntry.COLUMN_PRODUCT_NAME);
@@ -147,11 +132,6 @@ public class StoreProvider extends ContentProvider {
         }
     }
 
-    /**
-     * Update items in the database with the given content values. Apply the changes to the rows
-     * specified in the selection and selection arguments (which could be 0 or 1 or more items).
-     * Return the number of rows that were successfully updated.
-     */
     private int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.containsKey(ItemEntry.COLUMN_PRODUCT_NAME)) {

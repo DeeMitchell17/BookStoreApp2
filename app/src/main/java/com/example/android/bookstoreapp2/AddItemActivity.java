@@ -27,38 +27,28 @@ import com.example.android.bookstoreapp2.data.StoreContract;
 public class AddItemActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the bookstore data loader */
     private static final int EXISTING_BOOKSTORE_LOADER = 0;
 
     private Uri mCurrentItemUri;
 
-    /** EditText field to enter the product name */
     private EditText mProductNameEditText;
 
-    /** EditText field to enter the product price */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the product quantity */
     private EditText mQuantityEditText;
 
-    /** EditText field to enter the product supplier name */
     private EditText mSupplierNameEditText;
 
-    /** EditText field to enter the product supplier phone number */
     private EditText mSupplierPhoneNumberEditText;
 
-    /** Boolean flag that keeps track of whether the pet has been edited (true) or not (false) */
     private boolean mItemHasChanged = false;
 
-    /**
-     * OnTouchListener that listens for any user touches on a View, implying that they are modifying
-     * the view, and we change the mItemHasChanged boolean to true.
-     */
+
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             mItemHasChanged = true;
-            return true;
+            return false;
         }
     };
 
@@ -97,8 +87,8 @@ public class AddItemActivity extends AppCompatActivity implements
         mContactButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent ( Intent.ACTION_DIAL );
-                intent.setData ( Uri.parse ( "tel:213-456-5000" ) );
+                Intent intent = new Intent (Intent.ACTION_DIAL);
+                intent.setData ( Uri.parse ("tel:203-500-6079"));
                 startActivity ( intent );
                 Log.v ( "EditText", mSupplierPhoneNumberEditText.getText ().toString ().trim () );
             }
@@ -108,8 +98,8 @@ public class AddItemActivity extends AppCompatActivity implements
         mIncreaseButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                int quantity = Integer.parseInt ( mQuantityEditText.getText ().toString ().trim ());
-                if (quantity == 0) {
+                int quantity = Integer.parseInt (mQuantityEditText.getText ().toString ().trim ());
+                if (quantity >= 0) {
                     mQuantityEditText.setText (String.valueOf( ++quantity ));
                 }
             }
@@ -130,9 +120,6 @@ public class AddItemActivity extends AppCompatActivity implements
 
     }
 
-    /**
-     * Get user input from editor and save item into database.
-     */
     private boolean saveItem() {
 
         String nameString = mProductNameEditText.getText().toString().trim();
@@ -236,9 +223,7 @@ public class AddItemActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * This method is called when the back button is pressed.
-     */
+
     @Override
     public void onBackPressed() {
         if (!mItemHasChanged) {
@@ -267,12 +252,12 @@ public class AddItemActivity extends AppCompatActivity implements
                 StoreContract.ItemEntry.COLUMN_SUPPLIER_NAME,
                 StoreContract.ItemEntry.COLUMN_SUPPLIER_PHONE_NUMBER};
 
-        return new CursorLoader(this,   // Parent activity context
-                mCurrentItemUri,         // Query the content URI for the current pet
-                projection,             // Columns to include in the resulting Cursor
-                null,                   // No selection clause
-                null,                   // No selection arguments
-                null);                  // Default sort order
+        return new CursorLoader(this,
+                mCurrentItemUri,
+                projection,
+                null,
+                null,
+                null);
     }
 
     @Override
@@ -299,7 +284,7 @@ public class AddItemActivity extends AppCompatActivity implements
             mPriceEditText.setText(String.format(String.valueOf(price)));
             mQuantityEditText.setText(String.format(String.valueOf(quantity)));
             mSupplierNameEditText.setText(supplier);
-            mSupplierPhoneNumberEditText.setText(contact);
+            mSupplierPhoneNumberEditText.setText(String.format(String.valueOf(contact)));
 
         }
 
@@ -316,13 +301,6 @@ public class AddItemActivity extends AppCompatActivity implements
 
     }
 
-    /**
-     * Show a dialog that warns the user there are unsaved changes that will be lost
-     * if they continue leaving the editor.
-     *
-     * @param discardButtonClickListener is the click listener for what to do when
-     *                                   the user confirms they want to discard their changes
-     */
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
 
@@ -342,9 +320,6 @@ public class AddItemActivity extends AppCompatActivity implements
         alertDialog.show();
     }
 
-    /**
-     * Prompt the user to confirm that they want to delete this item.
-     */
     private void showDeleteConfirmationDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -366,9 +341,6 @@ public class AddItemActivity extends AppCompatActivity implements
         alertDialog.show();
     }
 
-    /**
-     * Perform the deletion of the store item in the database.
-     */
     private void deletePet() {
 
         if (mCurrentItemUri != null) {

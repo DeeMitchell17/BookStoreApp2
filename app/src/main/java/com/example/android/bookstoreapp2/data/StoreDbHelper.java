@@ -6,33 +6,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.bookstoreapp2.data.StoreContract.ItemEntry;
 
-/**
- * Database helper for Bookstore app. Manages database creation and version management.
- */
+
 public class StoreDbHelper extends SQLiteOpenHelper {
 
     public static final String LOG_TAG = StoreDbHelper.class.getSimpleName();
 
-    /** Name of the database file */
     private static final String DATABASE_NAME = "bookstore.db";
 
-    /**
-     * Database version. If you change the database schema, you must increment the database version.
-     */
     private static final int DATABASE_VERSION = 1;
 
-    /**
-     * Constructs a new instance of {@link StoreDbHelper}.
-     *
-     * @param context of the app
-     */
     public StoreDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    /**
-     * This is called when the database is created for the first time.
-     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String SQL_CREATE_BOOKSTORE_TABLE =  "CREATE TABLE " + ItemEntry.TABLE_NAME + " ("
@@ -46,9 +32,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_BOOKSTORE_TABLE);
     }
 
-    /**
-     * This is called when the database needs to be upgraded.
-     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
